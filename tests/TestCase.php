@@ -2,7 +2,7 @@
 
 namespace EscolaLms\Cmi5\Tests;
 
-use EscolaLms\Auth\Models\User;
+use EscolaLms\Core\Models\User;
 use EscolaLms\Cmi5\EscolaLmsCmi5ServiceProvider;
 use EscolaLms\Core\Tests\TestCase as CoreTestCase;
 use Laravel\Passport\PassportServiceProvider;

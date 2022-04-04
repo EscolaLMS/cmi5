@@ -1,0 +1,83 @@
+<?php
+
+namespace EscolaLms\Cmi5\Tests\Api;
+
+use EscolaLms\Cmi5\Database\Seeders\Cmi5PermissionSeeder;
+use EscolaLms\Cmi5\Tests\TestCase;
+use EscolaLms\Core\Tests\CreatesUsers;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+class Cmi5ApiTest extends TestCase
+{
+    use DatabaseTransactions, CreatesUsers;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(Cmi5PermissionSeeder::class);
+    }
+
+    public function cmiFileProvider(): array
+    {
+        return [
+            ['cmi5.zip'],
+            ['cmi5_multi_au_framed.zip'],
+        ];
+    }
+
+    /**
+     * @dataProvider cmiFileProvider
+     */
+    public function testUploadCmi5($fileName): void
+    {
+        Storage::fake();
+        $file = $this->getCmi5UploadedFile($fileName);
+        $admin = $this->makeAdmin();
+
+        $response = $this->actingAs($admin, 'api')
+            ->json('POST', '/api/admin/cmi5', ['file' => $file]);
+
+        $response->assertOk();
+    }
+
+    public function testUploadInvalidCmi5(): void
+    {
+        Storage::fake();
+        $admin = $this->makeAdmin();
+
+        $response = $this->actingAs($admin, 'api')
+            ->json(
+                'POST',
+                '/api/admin/cmi5',
+                ['file' => UploadedFile::fake()->create('cmi5.zip', 100, 'application/zip')]
+            );
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['file' => 'Invalid cmi5 file.']);
+    }
+
+    public function testUploadCmi5Unauthorized(): void
+    {
+        $response = $this->json('POST','/api/admin/cmi5');
+        $response->assertUnauthorized();
+    }
+
+    public function testUploadCmi5Forbidden(): void
+    {
+        $student = $this->makeStudent();
+        $response = $this->actingAs($student, 'api')->json('POST','/api/admin/cmi5');
+        $response->assertForbidden();
+    }
+
+    protected function getCmi5UploadedFile(string $fileName): UploadedFile
+    {
+        $filepath = realpath(__DIR__ . '/../mocks/' . $fileName);
+        $storagePath = Storage::path($fileName);
+
+        copy($filepath, $storagePath);
+
+        return new UploadedFile($storagePath, $fileName, 'application/zip', null, true);
+    }
+}

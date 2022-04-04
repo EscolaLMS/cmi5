@@ -3,11 +3,17 @@
 namespace EscolaLms\Cmi5;
 
 use EscolaLms\Cmi5\Providers\AuthServiceProvider;
+use EscolaLms\Cmi5\Services\Cmi5Service;
+use EscolaLms\Cmi5\Services\Contracts\Cmi5ServiceContract;
 use Illuminate\Support\ServiceProvider;
 
 class EscolaLmsCmi5ServiceProvider extends ServiceProvider
 {
     const CONFIG_KEY = 'escolalms_cmi5';
+
+    public $singletons = [
+        Cmi5ServiceContract::class => Cmi5Service::class,
+    ];
 
     public function register()
     {
