@@ -3,17 +3,28 @@
 namespace EscolaLms\Cmi5;
 
 use EscolaLms\Cmi5\Providers\AuthServiceProvider;
+use EscolaLms\Cmi5\Repositories\Cmi5Repository;
+use EscolaLms\Cmi5\Repositories\Contracts\Cmi5RepositoryContract;
 use EscolaLms\Cmi5\Services\Cmi5Service;
+use EscolaLms\Cmi5\Services\Cmi5UploadService;
 use EscolaLms\Cmi5\Services\Contracts\Cmi5ServiceContract;
+use EscolaLms\Cmi5\Services\Contracts\Cmi5UploadServiceContract;
 use Illuminate\Support\ServiceProvider;
 
 class EscolaLmsCmi5ServiceProvider extends ServiceProvider
 {
     const CONFIG_KEY = 'escolalms_cmi5';
 
-    public $singletons = [
+    const SERVICES = [
         Cmi5ServiceContract::class => Cmi5Service::class,
+        Cmi5UploadServiceContract::class => Cmi5UploadService::class,
     ];
+
+    const REPOSITORIES = [
+        Cmi5RepositoryContract::class => Cmi5Repository::class,
+    ];
+
+    public $singletons = self::SERVICES + self::REPOSITORIES;
 
     public function register()
     {

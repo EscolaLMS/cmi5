@@ -14,4 +14,9 @@ class Cmi5Policy
     {
         return $user->can(Cmi5PermissionEnum::CMI5_UPLOAD);
     }
+
+    public function list(User $user): bool
+    {
+        return $user->can(Cmi5PermissionEnum::CMI5_LIST);
+    }
 }

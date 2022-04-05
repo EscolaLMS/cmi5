@@ -11,7 +11,6 @@ class CreateCmi5AusTable extends Migration
     {
         Schema::create('cmi5_aus', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid');
             $table->string('title')->nullable();
             $table->string('iri')->nullable();
             $table->string('url');

@@ -10,7 +10,6 @@ abstract class AbstractParser
     {
         $collection = new Collection();
 
-
         if (self::isAssoc($data)) {
             return $collection->push(static::parse($data));
         }

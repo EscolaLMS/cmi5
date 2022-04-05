@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'disk' => env('CMI5_DISK', 'local')
+];

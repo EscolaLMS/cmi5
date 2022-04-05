@@ -6,7 +6,7 @@ use EscolaLms\Cmi5\Models\Cmi5;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 
-interface Cmi5ServiceContract
+interface Cmi5UploadServiceContract
 {
-    public function getCmi5s(?int $perPage): LengthAwarePaginator;
+    public function upload(UploadedFile $file): Cmi5;
 }

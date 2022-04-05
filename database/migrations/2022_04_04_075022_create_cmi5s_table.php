@@ -10,7 +10,6 @@ class CreateCmi5sTable extends Migration
     {
         Schema::create('cmi5s', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid');
             $table->string('title')->nullable();
             $table->string('iri')->nullable();
             $table->timestamps();
