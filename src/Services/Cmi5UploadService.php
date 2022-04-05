@@ -33,7 +33,8 @@ class Cmi5UploadService implements Cmi5UploadServiceContract
         return $cmi5;
     }
 
-    private function parse(ZipArchive $zip): Cmi5 {
+    private function parse(ZipArchive $zip): Cmi5
+    {
         $data = $this->xmlToArray($zip->getFromName(Cmi5Enum::MANIFEST_FILE));
 
         $cmi5 = Cmi5Parser::parse($data[Cmi5Enum::CMI5_KEY]);
@@ -42,11 +43,13 @@ class Cmi5UploadService implements Cmi5UploadServiceContract
         return $this->save($cmi5, $cmi5aus);
     }
 
-    private function save(Cmi5 $cmi5, Collection $cmi5Aus): Cmi5 {
+    private function save(Cmi5 $cmi5, Collection $cmi5Aus): Cmi5
+    {
         return $this->cmi5Repository->save($cmi5, $cmi5Aus);
     }
 
-    private function unzip(Cmi5 $cmi5, ZipArchive $zip): void {
+    private function unzip(Cmi5 $cmi5, ZipArchive $zip): void
+    {
         $rootDir = 'cmi5';
         $disk = Storage::disk(config('escolalms_cmi5.disk'));
         $destinationDir = $disk->path($rootDir . DIRECTORY_SEPARATOR . $cmi5->getKey());

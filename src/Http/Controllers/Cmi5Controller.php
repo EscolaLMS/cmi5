@@ -11,7 +11,6 @@ use EscolaLms\Cmi5\Services\Contracts\Cmi5UploadServiceContract;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use Illuminate\Http\JsonResponse;
 
-
 class Cmi5Controller extends EscolaLmsBaseController implements Cmi5ControllerSwagger
 {
     private Cmi5ServiceContract $cmi5Service;
