@@ -7,6 +7,7 @@ use EscolaLms\Cmi5\Models\Cmi5;
 use EscolaLms\Cmi5\Models\Cmi5Au;
 use EscolaLms\Cmi5\Tests\TestCase;
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\Lrs\Database\Seeders\LrsSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +21,7 @@ class Cmi5ApiTest extends TestCase
     {
         parent::setUp();
         $this->seed(Cmi5PermissionSeeder::class);
+        $this->seed(LrsSeeder::class);
     }
 
     public function cmiFileProvider(): array
@@ -125,7 +127,6 @@ class Cmi5ApiTest extends TestCase
             ->actingAs($admin, 'api')
             ->json('GET','/api/admin/cmi5?per_page=10');
 
-
         $response->assertOk();
         $response->assertJsonCount(10, 'data');
         $this->assertJsonStructure($response);
@@ -137,6 +138,28 @@ class Cmi5ApiTest extends TestCase
         $response->assertOk();
         $response->assertJsonCount(5, 'data');
         $this->assertJsonStructure($response);
+    }
+
+    public function testGetPlayer(): void
+    {
+        $user = $this->makeAdmin();
+        $token = $user->createToken("EscolaLMS User Token")->accessToken;
+
+        $file = $this->getCmi5UploadedFile('cmi5.zip');
+        $response = $this
+            ->withHeaders([
+                'Authorization' => "Bearer {$token}"
+            ])
+            ->json('POST', '/api/admin/cmi5', ['file' => $file]);
+        $cmi5IdAu = $response->getData()->data->au[0]->id;
+
+        $response = $this
+            ->withHeaders([
+                'Authorization' => "Bearer {$token}"
+            ])
+            ->json('GET', '/api/admin/cmi5/player/' . $cmi5IdAu);
+        $response->assertOk();
+        $response->assertViewIs('cmi5::player');
     }
 
     private function getCmi5UploadedFile(string $fileName): UploadedFile

@@ -3,7 +3,9 @@
 namespace EscolaLms\Cmi5;
 
 use EscolaLms\Cmi5\Providers\AuthServiceProvider;
+use EscolaLms\Cmi5\Repositories\Cmi5AuRepository;
 use EscolaLms\Cmi5\Repositories\Cmi5Repository;
+use EscolaLms\Cmi5\Repositories\Contracts\Cmi5AuRepositoryContract;
 use EscolaLms\Cmi5\Repositories\Contracts\Cmi5RepositoryContract;
 use EscolaLms\Cmi5\Services\Cmi5Service;
 use EscolaLms\Cmi5\Services\Cmi5UploadService;
@@ -22,6 +24,7 @@ class EscolaLmsCmi5ServiceProvider extends ServiceProvider
 
     const REPOSITORIES = [
         Cmi5RepositoryContract::class => Cmi5Repository::class,
+        Cmi5AuRepositoryContract::class => Cmi5AuRepository::class,
     ];
 
     public $singletons = self::SERVICES + self::REPOSITORIES;
@@ -36,6 +39,7 @@ class EscolaLmsCmi5ServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'cmi5');
 
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();

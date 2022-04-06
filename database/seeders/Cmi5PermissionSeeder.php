@@ -20,6 +20,7 @@ class Cmi5PermissionSeeder extends Seeder
         $admin->givePermissionTo([
             Cmi5PermissionEnum::CMI5_UPLOAD,
             Cmi5PermissionEnum::CMI5_LIST,
+            Cmi5PermissionEnum::CMI5_READ,
         ]);
     }
 }

@@ -19,4 +19,9 @@ class Cmi5Policy
     {
         return $user->can(Cmi5PermissionEnum::CMI5_LIST);
     }
+
+    public function read(User $user): bool
+    {
+        return $user->can(Cmi5PermissionEnum::CMI5_READ);
+    }
 }

@@ -4,11 +4,13 @@ namespace EscolaLms\Cmi5\Http\Controllers;
 
 use EscolaLms\Cmi5\Http\Controllers\Swagger\Cmi5ControllerSwagger;
 use EscolaLms\Cmi5\Http\Requests\Cmi5ListRequest;
+use EscolaLms\Cmi5\Http\Requests\Cmi5ReadRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5UploadRequest;
 use EscolaLms\Cmi5\Http\Resources\Cmi5Resource;
 use EscolaLms\Cmi5\Services\Contracts\Cmi5ServiceContract;
 use EscolaLms\Cmi5\Services\Contracts\Cmi5UploadServiceContract;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 
 class Cmi5Controller extends EscolaLmsBaseController implements Cmi5ControllerSwagger
@@ -26,6 +28,17 @@ class Cmi5Controller extends EscolaLmsBaseController implements Cmi5ControllerSw
     {
         $cmi5 = $this->cmi5UploadService->upload($request->file('file'));
         return $this->sendResponseForResource(Cmi5Resource::make($cmi5), __('Cmi5 uploaded successfully'));
+    }
+
+    public function read(Cmi5ReadRequest $request, int $cmi5AuId): View
+    {
+        $token = $request->header('Authorization');
+        $courseId = $request->get('course_id');
+        $topicId = $request->get('topic_id');
+
+        $data = $this->cmi5Service->getPlayerData($cmi5AuId, $token, $courseId, $topicId);
+
+        return view('cmi5::player', ['data' => $data]);
     }
 
     public function list(Cmi5ListRequest $request): JsonResponse

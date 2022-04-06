@@ -6,6 +6,7 @@
     "php": "^7.4|^8.0",
     "darkaonline/l5-swagger": "8.1.0",
     "escolalms/core": "^1.2.2",
+    "escolalms/lrs": "^0",
     "laravel/framework": "^8|^9"
   },
   "require-dev": {
@@ -20,11 +21,22 @@
     }
   ],
   "autoload": {
+    "exclude-from-classmap": [
+      "tests/Exceptions"
+    ],
     "psr-4": {
       "EscolaLms\\Cmi5\\": "src",
       "EscolaLms\\Cmi5\\Tests\\": "tests",
       "EscolaLms\\Cmi5\\Database\\Factories\\": "database/factories",
       "EscolaLms\\Cmi5\\Database\\Seeders\\": "database/seeders"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EscolaLms\\Cmi5\\": "src",
+      "EscolaLms\\Cmi5\\Database\\Seeders\\": "database/seeders",
+      "EscolaLms\\Cmi5\\Tests\\": "tests",
+      "App\\Exceptions\\": "tests/Exceptions"
     }
   },
   "extra": {
