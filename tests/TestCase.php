@@ -2,11 +2,12 @@
 
 namespace EscolaLms\Cmi5\Tests;
 
+use EscolaLms\Cmi5\Tests\Models\Client;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Cmi5\EscolaLmsCmi5ServiceProvider;
 use EscolaLms\Core\Tests\TestCase as CoreTestCase;
 use EscolaLms\Lrs\EscolaLmsLrsServiceProvider;
-use EscolaLms\Lrs\Tests\Models\Client;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
@@ -14,6 +15,7 @@ use Spatie\Permission\PermissionServiceProvider;
 
 class TestCase extends CoreTestCase
 {
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {
