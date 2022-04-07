@@ -51,7 +51,7 @@ jobs:
           vendor/bin/testbench passport:client --personal --no-interaction
 
       - name: copy keys
-        run: cp vendor/orchestra/testbench-core/laravel/storage/*.key vendor/escolalms/lrs/src/../../storage/
+        run: cp vendor/escolalms/lrs/src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
