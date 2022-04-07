@@ -14,7 +14,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mariadb
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: database
@@ -34,11 +34,24 @@ jobs:
       - name: Update composer
         run: composer update
 
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
       - name: Clear config
         run: vendor/bin/testbench config:clear
 
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
@@ -66,6 +79,11 @@ jobs:
       - name: Update composer
         run: composer update
 
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
       - name: Setup environment
         run: cp env/postgres/* .
 
@@ -83,6 +101,14 @@ jobs:
 
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
@@ -110,6 +136,11 @@ jobs:
       - name: Update composer
         run: composer update
 
+      - name: create folder for passport keys
+        run: |
+          mkdir storage
+          mkdir src/../../storage/
+
       - name: Setup environment
         run: cp env/postgres/* .
 
@@ -118,6 +149,14 @@ jobs:
 
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
+
+      - name: Generate keys
+        run: |
+          vendor/bin/testbench passport:keys --force
+          vendor/bin/testbench passport:client --personal --no-interaction
+
+      - name: copy keys
+        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
