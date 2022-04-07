@@ -37,7 +37,7 @@ jobs:
       - name: create folder for passport keys
         run: |
           mkdir storage
-          mkdir src/../../storage/
+          mkdir /vendor/escolalms/lrs/src/../../storage/
 
       - name: Clear config
         run: vendor/bin/testbench config:clear
@@ -51,7 +51,7 @@ jobs:
           vendor/bin/testbench passport:client --personal --no-interaction
 
       - name: copy keys
-        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+        run: cp /vendor/escolalms/lrs/src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: vendor/bin/phpunit
