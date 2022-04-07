@@ -43,7 +43,7 @@ jobs:
       - name: create folder for passport keys
         run: |
           mkdir storage
-          mkdir src/../../storage/
+          mkdir vendor/escolalms/lrs/src/../../storage/
 
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
@@ -57,7 +57,7 @@ jobs:
         run: COMPOSER_ROOT_VERSION=0.9.9 composer require --dev mheap/phpunit-github-actions-printer
 
       - name: copy keys
-        run: cp src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
+        run: cp vendor/escolalms/lrs/src/../../storage/*.key vendor/orchestra/testbench-core/laravel/storage/
 
       - name: Run tests
         run: XDEBUG_MODE=coverage vendor/bin/phpunit  --coverage-clover coverage.xml --printer mheap\\GithubActionsReporter\\Printer
