@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Cmi5\Http\Controllers\Swagger;
 
+use EscolaLms\Cmi5\Http\Requests\Cmi5DeleteRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5ListRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5ReadRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5UploadRequest;
@@ -160,4 +161,44 @@ interface Cmi5ControllerSwagger
      * @return JsonResponse
      */
     public function list(Cmi5ListRequest $request): JsonResponse;
+
+    /**
+     * @OA\Delete(
+     *     path="/api/admin/cmi5/{id}",
+     *     summary="Delete cmi5 package by id",
+     *     tags={"cmi5"},
+     *     security={
+     *         {"passport": {}},
+     *     },
+     *     @OA\Parameter(
+     *         description="Cmi5 id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="number"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cmi5 deleted successfully",
+     *      ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Endpoint requires authentication",
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="User doesn't have required access rights",
+     *      ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="Server-side error",
+     *      ),
+     * )
+     *
+     * @param Cmi5DeleteRequest $request
+     * @return JsonResponse
+     */
+    public function delete(Cmi5DeleteRequest $request): JsonResponse;
 }
