@@ -3,6 +3,7 @@
 namespace EscolaLms\Cmi5\Http\Controllers;
 
 use EscolaLms\Cmi5\Http\Controllers\Swagger\Cmi5ControllerSwagger;
+use EscolaLms\Cmi5\Http\Requests\Cmi5DeleteRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5ListRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5ReadRequest;
 use EscolaLms\Cmi5\Http\Requests\Cmi5UploadRequest;
@@ -45,5 +46,11 @@ class Cmi5Controller extends EscolaLmsBaseController implements Cmi5ControllerSw
     {
         $results = $this->cmi5Service->getCmi5s($request->get('per_page'));
         return $this->sendResponseForResource(Cmi5Resource::collection($results), __('Cmi5s retrieved successfully'));
+    }
+
+    public function delete(Cmi5DeleteRequest $request): JsonResponse
+    {
+        $this->cmi5Service->delete($request->getCmi5());
+        return $this->sendSuccess(__('Cmi5s deleted successfully'));
     }
 }

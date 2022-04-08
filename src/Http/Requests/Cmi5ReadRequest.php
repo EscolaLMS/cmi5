@@ -15,6 +15,21 @@ class Cmi5ReadRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'au_id' => ['integer', 'required', 'exists:cmi5_aus,id'],
+            'course_id' => ['nullable', 'integer', 'exists:courses,id'],
+            'topic_id' => ['nullable', 'integer', 'exists:topics,id'],
+        ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        parent::prepareForValidation();
+
+        $this->merge([
+            'au_id' => $this->route('auId'),
+            'course_id' => $this->get('course_id'),
+            'topic_id' => $this->get('topic_id'),
+        ]);
     }
 }

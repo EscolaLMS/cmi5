@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Cmi5\Services;
 
+use EscolaLms\Cmi5\Models\Cmi5;
 use EscolaLms\Cmi5\Repositories\Contracts\Cmi5AuRepositoryContract;
 use EscolaLms\Cmi5\Repositories\Contracts\Cmi5RepositoryContract;
 use EscolaLms\Cmi5\Services\Contracts\Cmi5ServiceContract;
@@ -40,5 +41,18 @@ class Cmi5Service implements Cmi5ServiceContract
             'url' => Storage::disk(config('escolalms_cmi5.disk'))
                 ->url('cmi5/' . $cmi5->getKey() . '/' . $cmi5Au->url . '?' . $launchParams['url'])
         ];
+    }
+
+    public function delete(Cmi5 $cmi5): void
+    {
+        $this->cmi5AuRepository->deleteWhere(['cmi5_id' => $cmi5->getKey()]);
+        $this->cmi5Repository->delete($cmi5->getKey());
+
+        $disk = Storage::disk(config('escolalms_cmi5.disk'));
+        $path = 'cmi5/' . $cmi5->getKey();
+
+        if ($disk->exists($path)) {
+            $disk->deleteDirectory($path);
+        }
     }
 }
