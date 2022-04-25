@@ -5,12 +5,14 @@ namespace EscolaLms\Cmi5\Tests\Traits;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
+use Laravel\Passport\Passport;
 
 trait Cmi5Testing
 {
     protected function getToken(): string
     {
         $user = $this->makeAdmin();
+        Passport::personalAccessTokensExpireIn(now()->addMonth());
         return $user->createToken("EscolaLMS User Token")->accessToken;
     }
 
