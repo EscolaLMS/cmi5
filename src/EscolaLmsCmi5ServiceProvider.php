@@ -13,6 +13,9 @@ use EscolaLms\Cmi5\Services\Contracts\Cmi5ServiceContract;
 use EscolaLms\Cmi5\Services\Contracts\Cmi5UploadServiceContract;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * SWAGGER_VERSION
+ */
 class EscolaLmsCmi5ServiceProvider extends ServiceProvider
 {
     const CONFIG_KEY = 'escolalms_cmi5';
