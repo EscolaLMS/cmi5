@@ -2,8 +2,9 @@
 
 use EscolaLms\Cmi5\Http\Controllers\Cmi5Controller;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use EscolaLms\Core\Http\Facades\Route;
 
-Route::group(['prefix' => '/api', 'middleware' => ['auth:api', SubstituteBindings::class]], function () {
+Route::group(['prefix' => '/api', 'middleware' => Route::apply(['auth:api', SubstituteBindings::class])], function () {
     Route::group(['prefix' => '/cmi5'], function () {
         Route::get('/player/{auId}', [Cmi5Controller::class, 'read']);
     });
