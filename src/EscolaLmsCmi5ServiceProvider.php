@@ -43,6 +43,7 @@ class EscolaLmsCmi5ServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'cmi5');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'cmi5');
 
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
